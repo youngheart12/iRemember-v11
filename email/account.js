@@ -1,7 +1,7 @@
 const config=require('config');
 const sgMail = require('@sendgrid/mail')
 
-const API=config.get('sendgridAPI')
+var API=config.get('sendgridAPI')
 sgMail.setApiKey(API)
 
 const sendWelcomeEmail = (email, name) => {
