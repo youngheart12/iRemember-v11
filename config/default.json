@@ -1,0 +1,5 @@
+{
+    "mongodbURI":"mongodb+srv://Ydhash12:Indianarmy@123@cluster1-fgnyn.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret":"this is my life",
+    "sendgridAPI":"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"
+}
