@@ -19,7 +19,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className='App'>
+        <div className='App' style={{backgroundColor:"#2A3439",height:"100vh",color:"white"}}>
           <AppNavbar />
           <Container>
             <ItemModal />

@@ -37,7 +37,7 @@ class RegisterModal extends Component {
     if (error !== prevProps.error) {
       // Check for register error
       if (error.id === 'REGISTER_FAIL') {
-        this.setState({ msg: error.msg.msg });
+        this.setState({ msg: error.msg.error });
       } else {
         this.setState({ msg: null });
       }
@@ -80,6 +80,7 @@ class RegisterModal extends Component {
   };
 
   render() {
+ 
     return (
       <div>
         <NavLink onClick={this.toggle} href='#'>

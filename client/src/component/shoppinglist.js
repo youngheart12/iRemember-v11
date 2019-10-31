@@ -4,6 +4,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getItems, deleteItem } from '../actions/itemActions';
 import PropTypes from 'prop-types';
+import './shopping.css';
 
 class ShoppingList extends Component {
   static propTypes = {
@@ -23,12 +24,13 @@ class ShoppingList extends Component {
   render() {
     const { items } = this.props.item;
     return (
-      <Container>
+      <div>
+      {this.props.isAuthenticated?<Container>
         <ListGroup>
           <TransitionGroup className='shopping-list'>
             {items.map(({ _id, name }) => (
               <CSSTransition key={_id} timeout={500} classNames='fade'>
-                <ListGroupItem>
+                <ListGroupItem style={{color:"black",fontSize:"1rem",fontWeight:"400"}}>
                   {this.props.isAuthenticated ? (
                     <Button
                       className='remove-btn'
@@ -45,7 +47,14 @@ class ShoppingList extends Component {
             ))}
           </TransitionGroup>
         </ListGroup>
-      </Container>
+      </Container>:<div style={{textAlign:"center"}}><h4 className='mb-3 ml-4' style={{textAlign:"center",fontSize:"4rem",marginTop:"25px"}}><b>"You can forget but not me "</b></h4>
+      <div>
+        <img src={require('../image/time.svg')} className="imagestyle"></img>
+      </div>
+      </div>
+      }
+      </div>
+      
     );
   }
 }

@@ -29,7 +29,8 @@ mongoose.connect(db,{
 //app.use(itemRouter)
 app.use('/api/items', require('./routes/api/items'));
 app.use('/api/users', require('./routes/api/users'));
-app.use('/api/auth',require('./routes/api/auth'))
+app.use('/api/auth',require('./routes/api/auth'));
+app.use('/api/comment',require('./routes/api/comment'));
 if (process.env.NODE_ENV === 'production') {
     // Set static folder
     app.use(express.static('client/build'));

@@ -5,6 +5,7 @@ const config=require('config')
 const jwt=require('jsonwebtoken')
 // Item Model
 const User = require('../../modals/users');
+
 const auth=require('../../routes/middleware/auth')
 const {sendCancelationEmail,sendWelcomeEmail}=require('../../email/account');
 router.post('/',(req,res)=>{
@@ -14,7 +15,7 @@ router.post('/',(req,res)=>{
        res.status(400).json({msg:"Please enter all fieds"});
    }
    User.findOne({email}).then(user=>{
-       if(user) return res.status(400).json({message:"user already exit"});
+       if(user) return res.status(400).json({error:"user already exit"});
    });
    const newUser=new User({
        name,email,password
