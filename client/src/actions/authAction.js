@@ -95,6 +95,7 @@ export const login = ({ email, password }) => dispatch => {
 
 // Logout User
 export const logout = () => {
+  localStorage.clear();
   return {
     type: LOGOUT_SUCCESS
   };
