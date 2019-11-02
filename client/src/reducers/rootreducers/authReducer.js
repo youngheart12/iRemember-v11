@@ -34,6 +34,7 @@ import {
       case LOGIN_SUCCESS:
       case REGISTER_SUCCESS:
         localStorage.setItem('token', action.payload.token);
+        localStorage.setItem('userid',action.payload.user.id);
         return {
           ...state,
           ...action.payload,

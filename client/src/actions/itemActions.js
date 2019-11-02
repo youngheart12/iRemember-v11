@@ -2,10 +2,11 @@ import axios from 'axios';
 import {GET_ITEMS,ADD_ITEM,DELETE_ITEM, ITEMS_LOADING} from './types';
 import {tokenConfig} from './authAction';
 import{returnErrors} from './errorAction';
- export const getItems = () => dispatch =>{
+ export const getItems = ({userId}) => dispatch =>{
+     console.log(userId);
     dispatch(setItemsLoading());
     axios
-    .get('/api/items')
+    .get(`/api/items/${userId}`)
     .then(res => 
         dispatch({
         type:GET_ITEMS,
@@ -13,20 +14,28 @@ import{returnErrors} from './errorAction';
     })
     ).catch(err=>dispatch(returnErrors(err.response.data,err.response.status)))
 };
-export const deleteItem=(id)=>(dispatch,getState) =>{
-axios.delete(`/api/items/${id}`,tokenConfig(getState)).then(res=> dispatch({
-    type:DELETE_ITEM,
-    payload:id
-}))
+export const deleteItem=({userId,name})=>(dispatch,getState) =>{
+    const body = JSON.stringify({ name });
+    const data={
+        userId:userId
+    }
+axios.post(`/api/items/del/${userId}`,body,tokenConfig(getState)).then(res=> dispatch(
+    getItems(data)
+))
 }
 
-export const addItem=(item)=>(dispatch,getState)=>{
-    axios.post('/api/items',item,tokenConfig(getState)).then(res=>
-        dispatch({
-            type:ADD_ITEM,
-            payload:res.data
-        }))
-}
+export const addItem=({name,userId})=>(dispatch,getState)=>{
+    console.log(name);
+    console.log(userId);
+    const data={
+        userId:userId
+    }
+    const body = JSON.stringify({ name });
+    axios.post(`/api/items/${userId}`,body,tokenConfig(getState)).then((res=> dispatch(
+        getItems(data)
+    )))}
+       
+
 export const setItemsLoading=()=>{
     return{
         type:ITEMS_LOADING

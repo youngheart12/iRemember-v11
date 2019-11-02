@@ -13,16 +13,32 @@ class ShoppingList extends Component {
     isAuthenticated: PropTypes.bool
   };
 
-  componentDidMount() {
-    this.props.getItems();
+  componentDidUpdate(prevProps)
+  {
+    if(this.props.isAuthenticated){
+    if(prevProps.isAuthenticated !==this.props.isAuthenticated)
+    {
+      const userId=this.props.auth.user.id;
+      const data={
+        userId:userId
+      }
+      this.props.getItems(data);
+    }
+  }
   }
 
-  onDeleteClick = id => {
-    this.props.deleteItem(id);
+
+  onDeleteClick = name => {
+    const data={
+      userId:this.props.auth.user.id,
+      name:name
+    }
+    this.props.deleteItem(data);
   };
 
   render() {
-    const { items } = this.props.item;
+    const { items } = this.props.item
+   
     return (
       <div>
       {this.props.isAuthenticated?<Container>
@@ -36,7 +52,7 @@ class ShoppingList extends Component {
                       className='remove-btn'
                       color='danger'
                       size='sm'
-                      onClick={this.onDeleteClick.bind(this, _id)}
+                      onClick={this.onDeleteClick.bind(this,name)}
                     >
                       &times;
                     </Button>
@@ -47,7 +63,7 @@ class ShoppingList extends Component {
             ))}
           </TransitionGroup>
         </ListGroup>
-      </Container>:<div style={{textAlign:"center"}}><h4 className='mb-3 ml-4' style={{textAlign:"center",fontSize:"4rem",marginTop:"25px"}}><b>"You can forget but not me "</b></h4>
+      </Container>:<div style={{textAlign:"center"}}><h4  style={{textAlign:"center",fontSize:"4rem",marginTop:"25px"}}><b>"You can forget but not me "</b></h4>
       <div>
         <img src={require('../image/time.svg')} className="imagestyle"></img>
       </div>
@@ -61,7 +77,8 @@ class ShoppingList extends Component {
 
 const mapStateToProps = state => ({
   item: state.item,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  auth:state.auth
 });
 
 export default connect(

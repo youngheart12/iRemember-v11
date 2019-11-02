@@ -2,7 +2,7 @@ import React,{Component,Fragment} from 'react';
 import RegisterModal from '../component/auth/registerModal';
 import Logout from '../component/auth/Logout';
 import Login from '../component/auth/loginModal';
-import Contact from '../component/auth/contact';
+
 import {connect} from 'react-redux'
 import{
     Collapse,
@@ -11,7 +11,7 @@ import{
     NavbarBrand,
     Nav,
     NavItem,
-    Container
+    Container,NavLink
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 class AppNavbar extends Component{
@@ -54,7 +54,6 @@ class AppNavbar extends Component{
         <NavItem>
           <Login />
         </NavItem>
-       
       </Fragment>
     );
 

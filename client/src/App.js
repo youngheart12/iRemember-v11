@@ -12,18 +12,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 class App extends Component {
-  componentDidMount() {
-    store.dispatch(loadUser());
-  }
-
+ 
   render() {
     return (
       <Provider store={store}>
-        <div className='App' style={{backgroundColor:"#2A3439",height:"100vh",color:"white"}}>
+        <div className='App' style={{backgroundColor:"#2A3439",height:"auto",color:"white"}}>
           <AppNavbar />
           <Container>
             <ItemModal />
             <ShoppingList />
+      
           </Container>
         </div>
       </Provider>

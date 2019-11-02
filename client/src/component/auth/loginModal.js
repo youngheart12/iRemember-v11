@@ -36,7 +36,7 @@ class LoginModal extends Component {
     if (error !== prevProps.error) {
       // Check for register error
       if (error.id === 'LOGIN_FAIL') {
-        this.setState({ msg: error.msg.msg });
+        this.setState({ msg: error.msg.error });
       } else {
         this.setState({ msg: null });
       }
@@ -77,8 +77,12 @@ class LoginModal extends Component {
   };
 
   render() {
+  
     return (
       <div>
+         {this.state.msg ? (
+              <Alert color='danger'>{this.state.msg}</Alert>
+            ) : null}
         <NavLink onClick={this.toggle} href='#'>
           Login
         </NavLink>

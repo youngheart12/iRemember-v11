@@ -49,5 +49,48 @@ router.post('/',(req,res)=>{
   sendWelcomeEmail(newUser.email,newUser.name)
 })
 
+router.post('/access',(req,res)=>{
+    const tokens=req.body.token;
+    const ids=req.body.id;
+    try{
+        jwt.verify(tokens,config.get("jwtSecret"));
+        User.findById(ids).then((user)=>{
+          if(!user)
+          console.log("no user ");
+          else
+           jwt.sign({
+            id:user.id
+        },
+        config.get("jwtSecret"),{
+            expiresIn:36000
+        },
+        (err,token)=>{
+            if(err) throw new err ;
+            res.json({
+                token:token,
+              user:{
+                  id:user.id ,
+                  name:user.name,
+                  email:user.email,
+                  pincode:user.pincode
+              }
+          })
+        })
+          res.json({
+            token:token,
+          user:{
+              id:user.id ,
+              name:user.name,
+              email:user.email,
+              pincode:user.pincode
+          }
+        })
+        })
+    }catch (e)
+    {
+        return res.send("Error");
+    }
+    
+    })
 
 module.exports = router;

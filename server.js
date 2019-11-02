@@ -19,7 +19,8 @@ const db=config.get('mongodbURI')
 
 mongoose.connect(db,{
     useNewUrlParser:true,
-    useCreateIndex:true
+    useCreateIndex:true,
+    useFindAndModify:false
 }).then(()=>{
     console.log("mongodb connceted")
 }).catch((e)=>{
@@ -30,7 +31,7 @@ mongoose.connect(db,{
 app.use('/api/items', require('./routes/api/items'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth',require('./routes/api/auth'));
-app.use('/api/comment',require('./routes/api/comment'));
+
 if (process.env.NODE_ENV === 'production') {
     // Set static folder
     app.use(express.static('client/build'));

@@ -59,7 +59,7 @@ class ItemModal extends Component {
             Add Item
           </Button>
         ) : (
-          <h4 className='mb-3 ml-4' style={{textAlign:"center",fontSize:"4rem"}}><b>Please log in to manage items</b></h4>
+          <h4  style={{textAlign:"center",fontSize:"4rem"}}><b>Please log in to manage items</b></h4>
         )}
 
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
@@ -75,7 +75,7 @@ class ItemModal extends Component {
                   placeholder='Add shopping item'
                   onChange={this.onChange}
                 />
-                <Button color='dark' style={{ marginTop: '2rem' }} block>
+                <Button color='dark' style={{ marginop: '2rem' }} block>
                   Add Item
                 </Button>
               </FormGroup>
