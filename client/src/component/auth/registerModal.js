@@ -14,7 +14,7 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/authAction';
-import { clearErrors } from '../../actions/errorAction';
+import { clearErrors } from '../../actions/authAction';
 
 class RegisterModal extends Component {
   state = {
@@ -36,11 +36,7 @@ class RegisterModal extends Component {
     const { error, isAuthenticated } = this.props;
     if (error !== prevProps.error) {
       // Check for register error
-      if (error.id === 'REGISTER_FAIL') {
-        this.setState({ msg: error.msg.error });
-      } else {
-        this.setState({ msg: null });
-      }
+    this.setState({msg:error.msg});
     }
 
     // If authenticated, close modal
@@ -138,7 +134,7 @@ class RegisterModal extends Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  error: state.auth.err
 });
 
 export default connect(

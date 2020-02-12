@@ -3,7 +3,7 @@ import { returnErrors } from './errorAction';
 
 import {
   USER_LOADED,
-  USER_LOADING,
+  CLEAR_ERRORS,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -29,21 +29,25 @@ export const register = ({ name, email, password }) => dispatch => {
   axios
     .post('/api/users', body, config)
     .then(res =>
+   
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
       })
     )
     .catch(err => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL')
-      );
+      console.log(err.response.data);
       dispatch({
-        type: REGISTER_FAIL
+        type: REGISTER_FAIL,
+        payload:err.response.data
       });
     });
 };
-
+export const clearErrors = () => {
+  return {
+    type: CLEAR_ERRORS
+  };
+};
 // Login User
 export const login = ({ email, password }) => dispatch => {
   // Headers

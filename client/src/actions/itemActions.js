@@ -3,7 +3,7 @@ import {GET_ITEMS,ADD_ITEM,DELETE_ITEM, ITEMS_LOADING} from './types';
 import {tokenConfig} from './authAction';
 import{returnErrors} from './errorAction';
  export const getItems = ({userId}) => dispatch =>{
-     console.log(userId);
+    
     dispatch(setItemsLoading());
     axios
     .get(`/api/items/${userId}`)
@@ -25,8 +25,7 @@ axios.post(`/api/items/del/${userId}`,body,tokenConfig(getState)).then(res=> dis
 }
 
 export const addItem=({name,userId})=>(dispatch,getState)=>{
-    console.log(name);
-    console.log(userId);
+  
     const data={
         userId:userId
     }

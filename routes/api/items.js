@@ -21,6 +21,7 @@ router.get('/:userId', (req, res) => {
 router.post('/:userId',(req,res)=>{
   const {userId}=req.params;
   const {name}=req.body;
+  console.log(name);
   User.findByIdAndUpdate(userId,
     {
       $push:{item:{name:name}}

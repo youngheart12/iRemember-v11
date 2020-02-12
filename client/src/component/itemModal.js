@@ -37,7 +37,8 @@ class ItemModal extends Component {
     e.preventDefault();
 
     const newItem = {
-      name: this.state.name
+      name: this.state.name,
+      userId:this.props.auth.user.id
     };
 
     // Add item via addItem action
@@ -75,6 +76,7 @@ class ItemModal extends Component {
                   placeholder='Add shopping item'
                   onChange={this.onChange}
                 />
+                <br></br>
                 <Button color='dark' style={{ marginop: '2rem' }} block>
                   Add Item
                 </Button>
@@ -89,6 +91,7 @@ class ItemModal extends Component {
 
 const mapStateToProps = state => ({
   item: state.item,
+  auth:state.auth,
   isAuthenticated: state.auth.isAuthenticated
 });
 
