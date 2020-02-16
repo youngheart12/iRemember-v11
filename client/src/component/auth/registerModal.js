@@ -9,12 +9,12 @@ import {
   Label,
   Input,
   NavLink,
-  Alert
+  Alert,
+  Spinner
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { register } from '../../actions/authAction';
-import { clearErrors } from '../../actions/authAction';
+import * as actionCreator from '../../actions/authAction';
+
 
 class RegisterModal extends Component {
   state = {
@@ -22,24 +22,17 @@ class RegisterModal extends Component {
     name: '',
     email: '',
     password: '',
-    msg: null
+    msg: null,
+    showSpinner:false
   };
 
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-    error: PropTypes.object.isRequired,
-    register: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired
-  };
+ 
 
   componentDidUpdate(prevProps) {
     const { error, isAuthenticated } = this.props;
     if (error !== prevProps.error) {
-      // Check for register error
     this.setState({msg:error.msg});
     }
-
-    // If authenticated, close modal
     if (this.state.modal) {
       if (isAuthenticated) {
         this.toggle();
@@ -47,32 +40,35 @@ class RegisterModal extends Component {
     }
   }
 
+
   toggle = () => {
-    // Clear errors
-    this.props.clearErrors();
+     this.props.clearErrors();
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      showSpinner:false
     });
   };
+
+
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+
+
   onSubmit = e => {
     e.preventDefault();
-
     const { name, email, password } = this.state;
-
-    // Create user object
     const newUser = {
       name,
       email,
       password
     };
-
-    // Attempt to register
-    this.props.register(newUser);
+    this.setState({
+      showSpinner:true
+    })
+    this.props.registerUser(newUser);
   };
 
   render() {
@@ -121,8 +117,9 @@ class RegisterModal extends Component {
                   onChange={this.onChange}
                 />
                 <Button color='dark' style={{ marginTop: '2rem' }} block>
-                  Register
+                 {this.state.msg?"Try again":this.state.showSpinner?<Spinner color="primary"></Spinner>:"Register"} 
                 </Button>
+             
               </FormGroup>
             </Form>
           </ModalBody>
@@ -137,7 +134,13 @@ const mapStateToProps = state => ({
   error: state.auth.err
 });
 
-export default connect(
-  mapStateToProps,
-  { register, clearErrors }
-)(RegisterModal);
+
+const mapDispatchToProps=(dispatch)=>{
+  return{
+    registerUser:(newUser)=>dispatch(actionCreator.register(newUser)),
+    clearErrors:()=>dispatch(actionCreator.clearErrors())
+  }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(RegisterModal);

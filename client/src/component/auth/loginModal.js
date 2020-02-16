@@ -9,40 +9,29 @@ import {
   Label,
   Input,
   NavLink,
-  Alert
+  Alert,
+  Spinner
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { login } from '../../actions/authAction';
-import { clearErrors } from '../../actions/errorAction';
+import * as actionCreator from '../../actions/authAction';
+
 
 class LoginModal extends Component {
   state = {
     modal: false,
     email: '',
     password: '',
-    msg: null
+    msg: null,
+    showSpinner:false
   };
 
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-    error: PropTypes.object.isRequired,
-    login: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired
-  };
+
 
   componentDidUpdate(prevProps) {
     const { error, isAuthenticated } = this.props;
     if (error !== prevProps.error) {
-      // Check for register error
-      if (error.id === 'LOGIN_FAIL') {
-        this.setState({ msg: error.msg.error });
-      } else {
-        this.setState({ msg: null });
-      }
+    this.setState({msg:error.msg});
     }
-
-    // If authenticated, close modal
     if (this.state.modal) {
       if (isAuthenticated) {
         this.toggle();
@@ -54,7 +43,8 @@ class LoginModal extends Component {
     // Clear errors
     this.props.clearErrors();
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      showSpinner:false
     });
   };
 
@@ -73,6 +63,9 @@ class LoginModal extends Component {
     };
 
     // Attempt to login
+    this.setState({
+      showSpinner:true
+    })
     this.props.login(user);
   };
 
@@ -80,9 +73,7 @@ class LoginModal extends Component {
   
     return (
       <div>
-         {this.state.msg ? (
-              <Alert color='danger'>{this.state.msg}</Alert>
-            ) : null}
+       
         <NavLink onClick={this.toggle} href='#'>
           Login
         </NavLink>
@@ -90,7 +81,7 @@ class LoginModal extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Login</ModalHeader>
           <ModalBody>
-            {this.state.msg ? (
+          {this.state.msg ? (
               <Alert color='danger'>{this.state.msg}</Alert>
             ) : null}
             <Form onSubmit={this.onSubmit}>
@@ -115,7 +106,7 @@ class LoginModal extends Component {
                   onChange={this.onChange}
                 />
                 <Button color='dark' style={{ marginTop: '2rem' }} block>
-                  Login
+                {this.state.msg?"Try again":this.state.showSpinner?<Spinner color="primary"></Spinner>:"Login"} 
                 </Button>
               </FormGroup>
             </Form>
@@ -128,10 +119,12 @@ class LoginModal extends Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  error:state.auth.err
 });
-
-export default connect(
-  mapStateToProps,
-  { login, clearErrors }
-)(LoginModal);
+const mapDispatchToProps=(dispatch)=>{
+  return {
+    login:(loginDetails)=>{dispatch(actionCreator.login(loginDetails))},
+    clearErrors:()=>{dispatch(actionCreator.clearErrors())}
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(LoginModal);

@@ -53,6 +53,7 @@ class ShoppingList extends Component {
                       color='danger'
                       size='sm'
                       onClick={this.onDeleteClick.bind(this,name)}
+                      style={{float:"right"}}
                     >
                       &times;
                     </Button>
